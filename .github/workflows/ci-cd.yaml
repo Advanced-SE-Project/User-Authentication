@@ -37,8 +37,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build . -t your-docker-repo/your-image-name:latest
-          docker push your-docker-repo/your-image-name:latest
+          docker build . -t erisahalipaj2107/user-auth:latest
+          docker push erisahalipaj2107/user-auth:latest
 
   restart-application:
     needs: build-and-push-docker
