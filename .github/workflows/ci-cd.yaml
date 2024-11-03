@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build . -t erisahalipaj2107/user-auth:latest 
+          docker build -f ./Dockerfile . -t erisahalipaj2107/user-auth:latest 
       - name: Push Docker Image
         run: |
           docker push erisahalipaj2107/user-auth:latest
