@@ -39,6 +39,8 @@ jobs:
 
       - name: Build Docker Image
         run: |
+          # Print the directory structure to debug the Dockerfile location
+          ls -alh
           docker build -f Dockerfile . -t erisahalipaj2107/user-auth:latest 
       - name: Push Docker Image
         run: |
