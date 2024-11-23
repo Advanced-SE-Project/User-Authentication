@@ -37,18 +37,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Debugging step to check the files in the correct folder
-      - name: List files in the first User-Authentication directory
+      # Debugging: List all files in the runner's workspace to find where the files are
+      - name: List all files recursively in the workspace
         run: |
-          echo "Current working directory:"
-          pwd
-          echo "Listing files in the first User-Authentication directory:"
-          ls -alh $GITHUB_WORKSPACE/User-Authentication
+          echo "Listing all files recursively in the workspace:"
+          ls -alhR /home/runner/work/
 
-      # Build Docker image from the correct directory (first User-Authentication folder)
+      # Build Docker image from the correct directory (to be determined after debugging)
       - name: Build Docker Image
         run: |
-          docker build -f $GITHUB_WORKSPACE/User-Authentication/Dockerfile $GITHUB_WORKSPACE/User-Authentication -t erisahalipaj2107/user-auth:latest
+          docker build -f $GITHUB_WORKSPACE/Dockerfile $GITHUB_WORKSPACE -t erisahalipaj2107/user-auth:latest
       - name: Push Docker Image
         run: |
           docker push erisahalipaj2107/user-auth:latest
