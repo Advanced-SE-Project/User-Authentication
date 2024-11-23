@@ -11,8 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 1  # Ensure a fresh checkout of the latest commit
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -23,8 +26,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-
 
   build-and-push-docker:
     needs: build-and-test
@@ -37,15 +38,19 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-       # Print working directory and files to check the Dockerfile location
-            # Change working directory to the outer folder where files exist
-      - name: Change directory to the correct folder
+      # List files to verify checkout
+      - name: List files in the root directory
         run: |
-          cd /home/runner/work/_PipelineMapping/Advanced-SE-Project/User-Authentication/ && ls -alh  # Change to the directory and list files    
+          echo "Current working directory:"
+          pwd
+          echo "Listing files in the root directory:"
+          ls -alh $GITHUB_WORKSPACE
 
+      # Build Docker image from the correct directory (first User-Authentication folder)
       - name: Build Docker Image
         run: |
-          docker build -f Dockerfile . -t erisahalipaj2107/user-auth:latest 
+          docker build -f $GITHUB_WORKSPACE/Dockerfile $GITHUB_WORKSPACE -t erisahalipaj2107/user-auth:latest
+
       - name: Push Docker Image
         run: |
           docker push erisahalipaj2107/user-auth:latest
@@ -53,7 +58,6 @@ jobs:
   restart-application:
     needs: build-and-push-docker
     runs-on: ubuntu-latest
-
     steps:
       - name: Restart Application
         run: |
