@@ -41,7 +41,7 @@ jobs:
             # Change working directory to the outer folder where files exist
       - name: Change directory to the correct folder
         run: |
-          cd /home/runner/work/User-Authentication/User-Authentication/ && ls -alh  # Change to the directory and list files    
+          cd /home/runner/work/ && ls -alh  # Change to the directory and list files    
 
       - name: Build Docker Image
         run: |
