@@ -105,5 +105,5 @@ def delete_account():
         cur.close()
         conn.close()
         return jsonify({'message': 'User account deleted successfully'}), 200
-    except Exception as e:
+    except Exception as e: #activating pipeline
         return jsonify({'message': 'An error occurred while deleting the account', 'error': str(e)}), 500
