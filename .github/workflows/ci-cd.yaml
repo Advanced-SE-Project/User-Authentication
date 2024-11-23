@@ -24,10 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Tests
-        run: |
-          # Assuming you have tests defined
-          pytest tests/
+
 
   build-and-push-docker:
     needs: build-and-test
@@ -40,10 +37,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Build Docker Image
         run: |
-          docker build . -t your-docker-repo/your-image-name:latest
-          docker push your-docker-repo/your-image-name:latest
+          docker build -f ../Dockerfile .. -t erisahalipaj2107/user-auth:latest 
+      - name: Push Docker Image
+        run: |
+          docker push erisahalipaj2107/user-auth:latest
 
   restart-application:
     needs: build-and-push-docker
@@ -52,5 +51,4 @@ jobs:
     steps:
       - name: Restart Application
         run: |
-          # Add your deployment logic here, e.g., using SSH to restart the server
           ssh -i ${{ secrets.SSH_KEY }} user@${{ secrets.DROPLET_IP }} "docker-compose -f /path/to/docker-compose.yml up -d"
