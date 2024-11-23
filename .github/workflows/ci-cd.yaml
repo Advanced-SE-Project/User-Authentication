@@ -38,16 +38,14 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
        # Print working directory and files to check the Dockerfile location
-      - name: Print working directory and list files
+            # Change working directory to the outer folder where files exist
+      - name: Change directory to the correct folder
         run: |
-          echo "Current working directory:"
-          pwd
-          echo "Listing files:"
-          ls -alh  # List files in the current directory to check if Dockerfile exists    
+          cd User-Authentication && ls -alh  # Change to the directory and list files    
 
       - name: Build Docker Image
         run: |
-          docker build -f User-Authentication/Dockerfile User-Authentication/ -t erisahalipaj2107/user-auth:latest 
+          docker build -f Dockerfile . -t erisahalipaj2107/user-auth:latest 
       - name: Push Docker Image
         run: |
           docker push erisahalipaj2107/user-auth:latest
