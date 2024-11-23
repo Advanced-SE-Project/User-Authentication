@@ -37,16 +37,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Debugging: List all files in the runner's workspace to find where the files are
-      - name: List all files recursively in the workspace
+       # Print working directory and files to check the Dockerfile location
+            # Change working directory to the outer folder where files exist
+      - name: Change directory to the correct folder
         run: |
-          echo "Listing all files recursively in the workspace:"
-          ls -alhR /home/runner/work/
+          cd /home/runner/work/_PipelineMapping/Advanced-SE-Project/User-Authentication/ && ls -alh  # Change to the directory and list files    
 
-      # Build Docker image from the correct directory (to be determined after debugging)
       - name: Build Docker Image
         run: |
-          docker build -f $GITHUB_WORKSPACE/Dockerfile $GITHUB_WORKSPACE -t erisahalipaj2107/user-auth:latest
+          docker build -f Dockerfile . -t erisahalipaj2107/user-auth:latest 
       - name: Push Docker Image
         run: |
           docker push erisahalipaj2107/user-auth:latest
